@@ -26,7 +26,7 @@ def get_data(n_samples):
         return features_shuf, labels_shuf
 
 
-if name == '__main__':
+if __name__ == '__main__':
 
         feat, lab = get_data(100)
 
