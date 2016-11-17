@@ -1,40 +1,38 @@
-import random as rd
+import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
 def get_data(n_samples):
         # makes binary classification data
+        x_train_1 = np.random.normal(0.7, 0.2, n_samples)
+        y_train_1 = np.random.normal(0.2, 0.2, n_samples)
 
-        x_1 = [rd.normalvariate(0.7,0.2) for i in range(n_samples)]
-        y_1 = [rd.normalvariate(0.2,0.2) for i in range(n_samples)]
+        x_train_0 = np.random.normal(0.2, 0.2, n_samples)
+        y_train_0 = np.random.normal(0.7, 0.2, n_samples)
 
-        x_0 = [rd.normalvariate(0.2,0.2) for i in range(n_samples)]
-        y_0 = [rd.normalvariate(0.7,0.2) for i in range(n_samples)]
+        x = np.append(x_train_1, x_train_0)
+        y = np.append(y_train_1, y_train_0)
+        pts = np.asarray([x, y]).T
+        
+        labels = np.append(np.ones(n_samples), np.zeros(n_samples))
 
-        x = x_1 + x_0                
-        y = y_1 + y_0
+        indices = np.random.shuffle(range(2 * n_samples))
+        pts_shuf = pts[indices]
+        lab_shuf = labels[indices]
 
-        labels = [1]*n_samples + [0]*n_samples
-
-        features = [(i,j) for i,j in zip(x,y)]        
-        indices = range(2*n_samples)
-        rd.shuffle(indices)
-
-        features_shuf = [features[i] for i in indices]
-        labels_shuf   = [labels[i] for i in indices]
-
-        return features_shuf, labels_shuf
+        return pts_shuf[0], lab_shuf[0]
 
 
 if __name__ == '__main__':
 
-        feat, lab = get_data(100)
+        feat, lab = get_data(1000)
 
-        col = ['g', 'r']
 
-        for i in range(len(lab)):
+        plt.scatter(feat[:,0][np.where(lab == 1.)], 
+                   feat[:,1][np.where(lab == 1.)], color='g')
+        
+        plt.scatter(feat[:,0][np.where(lab == 0.)], 
+                   feat[:,1][np.where(lab == 0.)], color='r')
 
-                plt.scatter(feat[i][0], feat[i][1], color=col[lab[i]])
 
         plt.show()
-
