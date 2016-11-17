@@ -15,17 +15,17 @@ def get_data(n_samples):
         pts = np.asarray([x, y]).T
         
         labels = np.append(np.ones(n_samples), np.zeros(n_samples))
-
-        indices = np.random.shuffle(range(2 * n_samples))
+        indices = range(2*n_samples)
+        np.random.shuffle(indices)
         pts_shuf = pts[indices]
         lab_shuf = labels[indices]
 
-        return pts_shuf[0], lab_shuf[0]
+        return pts_shuf, lab_shuf
 
 
 if __name__ == '__main__':
 
-        feat, lab = get_data(1000)
+        feat, lab = get_data(100)
 
 
         plt.scatter(feat[:,0][np.where(lab == 1.)], 
